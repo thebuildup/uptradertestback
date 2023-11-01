@@ -9,5 +9,14 @@ def menu_view(request):
 
 
 def menu_item_page(request, item_url):
+    # Обработка request.path: удаление начального и конечного слеша
+    cleaned_path = request.path.strip('/')
+
     menu_item = get_object_or_404(MenuItem, url=item_url)
-    return render(request, 'menu_item_page.html', {'menu_item': menu_item})
+
+    context = {
+        'menu_item': menu_item,
+        'cleaned_path': cleaned_path,
+    }
+
+    return render(request, 'menu_item_page.html', context)

@@ -3,12 +3,11 @@
 {% load menu_tags %}
 <head>
     <meta charset="UTF-8">
-    <title>{{ item.name }}</title>
+    <title>{{ menu_item.name }}</title>
     <style>
-        .active a {
-            /* Стили для активных ссылок */
+        a.active {
             font-weight: bold;
-            color: red; /* Пример изменения цвета текста */
+            color: hotpink;
         }
     </style>
 </head>
@@ -17,13 +16,15 @@
 {% draw_menu 'main' as menu_structure %}
 <ul>
     {% for item in menu_structure %}
-    <li{% if request.path == item.url %} class="active"{% endif %}>
-        <a href="{% url 'menu_item_page' item.url %}">{{ item.name }}</a>
+    <li>
+        <a {% if cleaned_path == item.url %}class="active"{% endif %}
+           href="{% url 'menu_item_page' item.url %}">{{ item.name }}</a>
         {% if item.children %}
         <ul>
             {% for child in item.children %}
-            <li{% if request.path == child.url %} class="active"{% endif %}>
-                <a href="{% url 'menu_item_page' child.url %}">{{ child.name }}</a>
+            <li>
+                <a {% if cleaned_path == child.url %}class="active"{% endif %}
+                   href="{% url 'menu_item_page' child.url %}">{{ child.name }}</a>
             </li>
             {% endfor %}
         </ul>
